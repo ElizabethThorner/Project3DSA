@@ -67,7 +67,7 @@ int main()
         //add edges from current address to nearby neighbor
         for (auto j = nearbyNeighbor.begin(); j != nearbyNeighbor.end(); j++)
         {
-            if (edgeCount[i] < maxEdgePerNode - 1 && edgeCount[*j] < maxEdgePerNode - 1)                 //if there is room, add the new edge
+            if (edgeCount[i] < maxEdgePerNode - 1 && edgeCount[*j] < maxEdgePerNode - 2)    //save 1 edge for self and 2 edge for nearby Neighbor
             {
                 random = distanceRange(rd);
                 graph[i].emplace(make_pair(*j, random));
@@ -88,7 +88,7 @@ int main()
     graph[numberNode].erase(make_pair(numberNode + 1, random)); //delete the unreachable ndoe from the last address
 
     //cout << "map size: " << graph.size() << endl;
-
+    //print the entire map
     for (auto i = graph.begin(); i != graph.end(); i++)
     {
         cout << "index: " << i->first << endl;
