@@ -56,26 +56,26 @@ int main()
         //from itself to 2 other possible neighbor within (itself + 2) to (itself + 12) (ex: address 3 can have numEdgePerNode edges to address 5 - 15)
         set<int> nearbyNeighbor;
         while ((nearbyNeighbor.size() != maxEdgePerNode - 2) && nearbyNeighbor.size() != numberNode - i - 1 && i != numberNode) //2 edges is reserved for straight path
-            {
+        {
             random = i + neighborRange(rd);
 
             if (random <= numberNode)                            // neighbor edge can't be larger than number of nodes that exist
-                {
+            {
                 nearbyNeighbor.emplace(random);
-                }
             }
+        }
 
         //add edges from current address to nearby neighbor
         for (auto j = nearbyNeighbor.begin(); j != nearbyNeighbor.end(); j++)
         {
             if (edgeCount[i] < maxEdgePerNode - 1 && edgeCount[*j] < maxEdgePerNode - 2)    //save 1 edge for self and 2 edge for nearby Neighbor
-                {
+            {
                 random = distanceRange(rd);
                 graph[i].emplace(make_pair(*j, random));
                 graph[*j].emplace(make_pair(i, random));
                 edgeCount[i] += 1;
                 edgeCount[*j] += 1;
-                }
+            }
         }
 
         random = distanceRange(rd);
@@ -106,6 +106,9 @@ int main()
     const int infinity = 2147483647;
 
     cout << "Generating an efficient path through Dijkstra's algorithm..." << endl;
+
+    //time of start
+    auto t1 = Clock::now();
 
     set<int> addressesAdded;
     list<int> dijkstraPath;
@@ -151,10 +154,15 @@ int main()
         }
         if (min == infinity) {
             iter = graph.end();
-        } else {
+        }
+        else {
             iter = graph.find(minIndex);
         }
     }
+
+    //time of end
+    auto t2 = Clock::now();
+    cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to run Dijkstra's algorithm once";
 
     cout << "The path produced by Dijkstra's algorithm:" << endl;
     for (auto i = dijkstraPath.begin(); i != dijkstraPath.end(); i++) {
@@ -162,6 +170,9 @@ int main()
     }
 
     cout << "Generating an efficient path through the Bellman-Ford algorithm..." << endl;
+
+    //time start
+    t1 = Clock::now();
 
     addressesAdded.clear();
     list<int> bellmanPath;
@@ -193,19 +204,21 @@ int main()
         }
         if (min == infinity) {
             iter = graph.end();
-        } else {
+        }
+        else {
             iter = graph.find(minIndex);
         }
 
     }
+
+    //time of end
+    t2 = Clock::now();
+    cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to run  Bellman-Ford algorithm once";
 
     cout << "The path produced by the Bellman-Ford algorithm:" << endl;
     for (auto i = bellmanPath.begin(); i != bellmanPath.end(); i++) {
         cout << *i << endl;
     }
 
-
-
     return 0;
 }
-
