@@ -162,12 +162,12 @@ int main()
 
     //time of end
     auto t2 = Clock::now();
-    cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to run Dijkstra's algorithm once";
+    cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to run Dijkstra's algorithm once" << endl;
 
-    cout << "The path produced by Dijkstra's algorithm:" << endl;
+    /*cout << "The path produced by Dijkstra's algorithm:" << endl;
     for (auto i = dijkstraPath.begin(); i != dijkstraPath.end(); i++) {
         cout << *i << endl;
-    }
+    }*/
 
     cout << "Generating an efficient path through the Bellman-Ford algorithm..." << endl;
 
@@ -213,12 +213,12 @@ int main()
 
     //time of end
     t2 = Clock::now();
-    cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to run  Bellman-Ford algorithm once";
+    cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to run  Bellman-Ford algorithm once" << endl;
 
-    cout << "The path produced by the Bellman-Ford algorithm:" << endl;
+    /*cout << "The path produced by the Bellman-Ford algorithm:" << endl;
     for (auto i = bellmanPath.begin(); i != bellmanPath.end(); i++) {
         cout << *i << endl;
-    }
+    }*/
 
     return 0;
 }
