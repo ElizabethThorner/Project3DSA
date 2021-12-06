@@ -13,6 +13,7 @@
 #include <map>
 #include <unordered_set>
 #include <unordered_map>
+#include <list>
 
 using namespace std::chrono;
 using namespace std;
@@ -26,13 +27,13 @@ int main()
 
     while (numberNode < 2)
     {
-        cout << "Enter the number of nodes: ";
+        cout << "Enter the number of nodes: " << endl;
         cin >> numberNode;
     }
 
     while (maxEdgePerNode < 2)
     {
-        cout << "Enter the max number of edges per node (minimum of 2): ";
+        cout << "Enter the max number of edges per node (minimum of 2): " << endl;
         cin >> maxEdgePerNode;
     }
 
@@ -102,19 +103,21 @@ int main()
         cout << endl << endl;
     }
 
+    const int infinity = 2147483647;
 
-    cout << "Generating an efficient path through Djikstra's algorithm..." << endl;
+    cout << "Generating an efficient path through Dijkstra's algorithm..." << endl;
 
     set<int> addressesAdded;
-    const int infinity = 2147483647;
-    vector<int> dijkstraPath;
-    for (auto iter = graph.begin(); iter != graph.end(); iter++) {
+    list<int> dijkstraPath;
+    auto iter = graph.begin();
+    while (iter != graph.end()) {
         set<int> processed;
-        vector<int> dist(graph.size(), infinity);
+        vector<int> dist(graph.size() + 1, infinity);
+        dijkstraPath.push_back(iter->first);
         dist[iter->first] = 0;
         addressesAdded.insert(iter->first);
 
-        while (processed.size() < graph.size()) {
+        while (processed.size() != graph.size()) {
             int v = 0;
             for (auto iter2 = graph.begin(); iter2 != graph.end(); iter2++) {
                 if (processed.count(iter2->first) == 0) {
@@ -146,9 +149,65 @@ int main()
                 }
             }
         }
-        dijkstraPath.push_back(minIndex);
+        if (min == infinity) {
+            iter = graph.end();
+        } else {
+            iter = graph.find(minIndex);
+        }
     }
+
+    cout << "The path produced by Dijkstra's algorithm:" << endl;
+    for (auto i = dijkstraPath.begin(); i != dijkstraPath.end(); i++) {
+        cout << *i << endl;
+    }
+
+    cout << "Generating an efficient path through the Bellman-Ford algorithm..." << endl;
+
+    addressesAdded.clear();
+    list<int> bellmanPath;
+    iter = graph.begin();
+    while (iter != graph.end()) {
+        vector<int> dist(graph.size() + 1, infinity);
+        bellmanPath.push_back(iter->first);
+        dist[iter->first] = 0;
+        addressesAdded.insert(iter->first);
+
+        for (int i = 0; i < graph.size() - 1; i++) {
+            for (int v = 1; v < graph.size() + 1; v++) {
+                for (auto j = graph[v].begin(); j != graph[v].end(); j++) {
+                    if (dist[j->first] > dist[v] + j->second) {
+                        dist[j->first] = dist[v] + j->second;
+                    }
+                }
+            }
+        }
+        int min = infinity;
+        int minIndex = 0;
+        for (int i = 0; i < dist.size(); i++) {
+            if (addressesAdded.count(i) == 0) {
+                if (dist[i] < min) {
+                    min = dist[i];
+                    minIndex = i;
+                }
+            }
+        }
+        if (min == infinity) {
+            iter = graph.end();
+        } else {
+            iter = graph.find(minIndex);
+        }
+
+    }
+
+    cout << "The path produced by the Bellman-Ford algorithm:" << endl;
+    for (auto i = bellmanPath.begin(); i != bellmanPath.end(); i++) {
+        cout << *i << endl;
+    }
+
 
 
     return 0;
 }
+
+
+
