@@ -224,7 +224,55 @@ int main()
     }
     else if (userInput == 2)            //Bellman-Ford
     {
-        //(int)(((double)totalDistance/1609.34)*100)/100
+        auto t1 = Clock::now();
+        
+        set<int> addressesAdded;
+        int totalDistance = 0;
+        list<int> bellmanPath;
+        auto iter = graph.begin();
+        int nodesVisited = 0;
+        
+        while (true) {
+            vector<int> dist(graph.size() + 1, infinity);
+            bellmanPath.push_back(iter->first);
+            dist[iter->first] = 0;
+            nodesVisited++;
+            addressesAdded.insert(iter->first);
+
+            for (int i = 0; i < graph.size() - 1; i++) {
+                for (int v = 1; v < graph.size() + 1; v++) {
+                     for (auto j = graph[v].begin(); j != graph[v].end(); j++) {
+                            if (dist[j->first] > dist[v] + j->second) {
+                                 dist[j->first] = dist[v] + j->second;
+                            }
+                     }
+                }
+            }
+
+        if (nodesVisited == graph.size()) {
+            break;
+        }
+
+        int min = infinity;
+        int minIndex = 0;
+        for (int i = 0; i < dist.size(); i++) {
+            if (addressesAdded.count(i) == 0) {
+                if (dist[i] < min) {
+                    min = dist[i];
+                    minIndex = i;
+                }
+            }
+        }
+        totalDistance += min;
+        iter = graph.find(minIndex);
+        }
+        
+        miles = (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100;
+        auto t2 = Clock::now();
+        cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to use the Bellman-Ford algorithm" << endl;
+        cout << "Total distance traveled: " << (double)((int)(((double)totalDistance/1609.34)*100))/100 << " miles " << "(" << totalDistance << " meters)." << endl;
+        cout << "Estimated time to complete trip (with an average speed of 35 miles per hour): " << (double)((int)((miles/35)*100))/100 << " hours." << endl;
+        cout << endl;
     }
 
     //print the path
@@ -302,10 +350,9 @@ vector<int> Dijkstra(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _
             }
         }
 
-        //do calculate to its childrens
         for (auto j = _graph[minIndex].begin(); j != _graph[minIndex].end(); j++)
         {
-            //if the new distance is less then update
+            //if the new distance is less than the updated distance
             if (distance[minIndex] + j->second < distance[j->first])
             {
                 distance[j->first] = distance[minIndex] + j->second;
@@ -326,7 +373,7 @@ vector<int> Dijkstra(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _
     return distance;
 }
 
-vector<int> BellmanFord(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _source)
+/*vector<int> BellmanFord(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _source)
 {
     vector<int> distance(_numNodes + 1, 300000000);            // track the distance from the source node
 
@@ -343,4 +390,4 @@ vector<int> BellmanFord(map<int, set<pair<int, int>>>& _graph, int _numNodes, in
     }*/
 
     return distance;
-}
+}*/
