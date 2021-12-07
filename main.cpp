@@ -272,7 +272,7 @@ int main()
     cout << "Trip total cost: $" << (double)((int)(((miles / mpg)*costPerGallon)*100))/100 + numOfDrivers*pay  << endl;
 
     //source: https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
-    cout << "Co2 emission for this trip is: " << 8887*(miles/mpg) << "x 10^-3 metric tons." << endl;
+    cout << "Co2 emission for this trip is: " << 8.887*(miles/mpg) << "x 10^-3 metric tons." << endl;
 
     cout << "Program Finished" << endl;
     return 0;
