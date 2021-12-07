@@ -1,3 +1,15 @@
+/*
+* COP3530 Fall 2021
+* Project 3
+*
+* Date: 11/09/2021
+* Group member: Zhen Wu, Nandini Tripathi, and Elizabeth Thorner
+*
+* Delivery simulation using greedy approach by Dijkstra and Bellman-Ford algorithm.
+* The program calculates a local optimal paths the driver can take to finish his/her delivery trip.
+* Estimation of how many gallons of gas will be used, CO2 omission, and esimated time will be also calulated.
+*/
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -21,6 +33,7 @@ using namespace std;
 typedef high_resolution_clock Clock;
 
 vector<int> Dijkstra(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _source, vector<int>& _prevNode);
+vector<int> BellmanFord(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _source);
 
 int main()
 {
@@ -29,9 +42,15 @@ int main()
     int maxEdgePerNode = -1;                                     //minimum of 2 edges (2 edges will just be a straight path)
     int numDeliveryAddress = -1;
 
+    cout << "This program will simulate paths that a delivery driver could take to delivery all his/her packages " << endl;
+    cout << "using the greedy approach. The user can choose between Dijkstra or Bellman-Ford algorithm or both. " << endl;
+    cout << "The program will output the exact vertices the driver must follow to finish the trip. Estimation of how " << endl;
+    cout << "many gallons of gas will be used, CO2 omission, and esimated time and total cost will be also calulated." << endl << endl;
+
+
     while (numberNode < 2)
     {
-        cout << "Enter the number of node: ";
+        cout << "Enter the number of vertices: ";
         cin >> numberNode;
     }
 
@@ -43,9 +62,10 @@ int main()
 
     while (numDeliveryAddress < 1)
     {
-        cout << "Enter the number of delivery addresses you want in your list (cant be >= the number of nodes): ";
+        cout << "Enter the number of delivery addresses you want in your list (cant be >= the number of vertices): ";
         cin >> numDeliveryAddress;
     }
+    cout << endl;
 
     //create random
     static random_device rd;
@@ -124,6 +144,7 @@ int main()
             cout << endl << endl;
         }
     }
+    cout << endl;
 
     //generate a certain amount of random delivery address
     static uniform_int_distribution<int> deliveryRange(2, numberNode);     // random
@@ -145,7 +166,9 @@ int main()
     cout << "1 = Dijkstra" << endl;
     cout << "2 = Bellman-Ford" << endl;
     cin >> userInput;
+    cout << endl;
 
+    double miles = 0;
     vector<int> path;                      //path taken tracker
     if (userInput == 1)                    // Dijkstra
     {
@@ -192,13 +215,16 @@ int main()
             }
         }
 
-        cout << "Total distance travelled: " << totalDistance << " meters." << endl;
+        miles = (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100;
         auto t2 = Clock::now();
         cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to use Dijkstra's algorithm" << endl;
+        cout << "Total distance travelled: " << (double)((int)(((double)totalDistance/1609.34)*100))/100 << " miles " << "(" << totalDistance << " meters)." << endl;
+        cout << "Esmated time to complete trip (with average speed of 35 miles per hour): " << (double)((int)((miles/35)*100))/100 << " hours." << endl;
+        cout << endl;
     }
     else if (userInput == 2)            //Bellman-Ford
     {
-        
+        //(int)(((double)totalDistance/1609.34)*100)/100
     }
 
     //print the path
@@ -206,6 +232,7 @@ int main()
     cout << "1 = yes" << endl;
     cout << "2 = no" << endl;
     cin >> userInput;
+    cout << endl;
 
     if (userInput == 1)
     {
@@ -214,8 +241,40 @@ int main()
             cout << path[i] << "->";
         }
     }
+    cout << endl << endl;;
 
-    cout << "Finished" << endl;
+    int numOfDrivers = 1;
+    double pay = 0;
+    double mpg = 0;
+    double costPerGallon = 0;
+
+    cout << "Trip cost calculation" << endl;
+    cout << "---------------------" << endl;
+    cout << "Enter number of workers: ";
+    cin >> numOfDrivers;
+    cout << endl;
+
+    cout << "Enter the hourly wage: ";
+    cin >> pay;
+    cout << endl;
+
+    cout << "Enter the vehicle mpg: ";
+    cin >> mpg;
+    cout << endl;
+
+    cout << "Enter the price per gallon of gas: ";
+    cin >> costPerGallon;
+    cout << endl;
+
+    cout << "Result:" << endl;
+    cout << "Wage: $" << numOfDrivers*pay << endl;
+    cout << "Gas: $" << (double)((int)(((miles/mpg)*costPerGallon)*100))/100 << endl;
+    cout << "Trip total cost: $" << (double)((int)(((miles / mpg)*costPerGallon)*100))/100 + numOfDrivers*pay  << endl;
+
+    //source: https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
+    cout << "Co2 emission for this trip is: " << 8887*(miles/mpg) << "x 10^-3 metric tons." << endl;
+
+    cout << "Program Finished" << endl;
     return 0;
 }
 
@@ -256,6 +315,25 @@ vector<int> Dijkstra(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _
 
         //finished visiting this node
         visited[minIndex] = 1;          //set to true
+    }
+
+    //test print
+    /*for (int i = 0; i < distance.size(); i++)
+    {
+        cout << "Distance to " << i << ": " << distance[i] << endl;
+    }*/
+
+    return distance;
+}
+
+vector<int> BellmanFord(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _source)
+{
+    vector<int> distance(_numNodes + 1, 300000000);            // track the distance from the source node
+
+    for(auto i = _graph.begin(); i != _graph.end(); i++)
+    {
+        
+        
     }
 
     //test print
