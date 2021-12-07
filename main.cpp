@@ -3,7 +3,7 @@
 * Project 3
 *
 * Date: 11/09/2021
-* Group member: Zhen Wu, Nandini Tripathi, and Elizabeth Thorner
+* Group members: Zhen Wu, Nandini Tripathi, and Elizabeth Thorner
 *
 * Delivery simulation using greedy approach by Dijkstra and Bellman-Ford algorithm.
 * The program calculates a local optimal paths the driver can take to finish his/her delivery trip.
@@ -85,11 +85,11 @@ int main()
     {
         //from itself to 2 other possble neighbor within (itself + 2) to (itself + 12) (ex: address 3 can have numEdgePerNode edges to address 5 - 15)
         set<int> nearbyNeighbor;
-        while ((nearbyNeighbor.size() != maxEdgePerNode - 2) && nearbyNeighbor.size() != numberNode - i - 1 && i != numberNode) //2 edges is reserved for straight path
+        while ((nearbyNeighbor.size() != maxEdgePerNode - 2) && nearbyNeighbor.size() != numberNode - i - 1 && i != numberNode) //2 edges are reserved for the straight path
         {
             random = i + neighborRange(rd);
 
-            if (random <= numberNode)                            // neighbor edge cant be larger then number of nodes that exist
+            if (random <= numberNode)                            // neighbor edge can't be larger then number of nodes that exist
             {
                 nearbyNeighbor.emplace(random);
             }
@@ -98,7 +98,7 @@ int main()
         //add edges from current address to nearby neighbor
         for (auto j = nearbyNeighbor.begin(); j != nearbyNeighbor.end(); j++)
         {
-            if (edgeCount[i] < maxEdgePerNode - 1 && edgeCount[*j] < maxEdgePerNode - 2)    //save 1 edge for self and 2 edge for nearby Neighbor
+            if (edgeCount[i] < maxEdgePerNode - 1 && edgeCount[*j] < maxEdgePerNode - 2)    //save 1 edge for self and 2 edge for nearby neighbor
             {
                 random = distanceRange(rd);
                 graph[i].emplace(make_pair(*j, random));
@@ -117,14 +117,14 @@ int main()
 
     }
 
-    graph.erase(numberNode + 1);                                //delete the one excess ndoe from the graph
-    graph[numberNode].erase(make_pair(numberNode + 1, random)); //delete the unreachable ndoe from the last address
+    graph.erase(numberNode + 1);                                //delete the one excess node from the graph
+    graph[numberNode].erase(make_pair(numberNode + 1, random)); //delete the unreachable node from the last address
 
 
     //print the entire map
     int userInput = 2;
 
-    cout << "Do You want to print entire graph? " << endl;
+    cout << "Do you want to print the entire graph? " << endl;
     cout << "1 = Yes " << endl;
     cout << "2 = No " << endl;
     cin >> userInput;
@@ -133,7 +133,7 @@ int main()
     {
         for (auto i = graph.begin(); i != graph.end(); i++)
         {
-            cout << "vertice: " << i->first << endl;
+            cout << "Vertices: " << i->first << endl;
             cout << "Edges: ";
 
             for (auto j = i->second.begin(); j != i->second.end(); j++)
@@ -218,8 +218,8 @@ int main()
         miles = (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100;
         auto t2 = Clock::now();
         cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to use Dijkstra's algorithm" << endl;
-        cout << "Total distance travelled: " << (double)((int)(((double)totalDistance/1609.34)*100))/100 << " miles " << "(" << totalDistance << " meters)." << endl;
-        cout << "Esmated time to complete trip (with average speed of 35 miles per hour): " << (double)((int)((miles/35)*100))/100 << " hours." << endl;
+        cout << "Total distance traveled: " << (double)((int)(((double)totalDistance/1609.34)*100))/100 << " miles " << "(" << totalDistance << " meters)." << endl;
+        cout << "Estimated time to complete trip (with an average speed of 35 miles per hour): " << (double)((int)((miles/35)*100))/100 << " hours." << endl;
         cout << endl;
     }
     else if (userInput == 2)            //Bellman-Ford
@@ -228,7 +228,7 @@ int main()
     }
 
     //print the path
-    cout << "Do You want to print the path the driver took?" << endl;
+    cout << "Do you want to print the path the driver took?" << endl;
     cout << "1 = yes" << endl;
     cout << "2 = no" << endl;
     cin >> userInput;
