@@ -13,20 +13,21 @@
 #include <map>
 #include <unordered_set>
 #include <unordered_map>
-
-#include "Dijkstra.h"
+#include <list>
+#include <stack>
 
 using namespace std::chrono;
 using namespace std;
 typedef high_resolution_clock Clock;
 
-vector<int> Dijkstra(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _source);
+vector<int> Dijkstra(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _source, vector<int>& _prevNode);
 
-int main() 
+int main()
 {
     //graph varibles
     int numberNode = -1;
     int maxEdgePerNode = -1;                                     //minimum of 2 edges (2 edges will just be a straight path)
+    int numDeliveryAddress = -1;
 
     while (numberNode < 2)
     {
@@ -38,6 +39,12 @@ int main()
     {
         cout << "Enter the max number of edges per node (minimum of 2): ";
         cin >> maxEdgePerNode;
+    }
+
+    while (numDeliveryAddress < 1)
+    {
+        cout << "Enter the number of delivery addresses you want in your list (cant be >= the number of nodes): ";
+        cin >> numDeliveryAddress;
     }
 
     //create random
@@ -83,7 +90,7 @@ int main()
 
 
         random = distanceRange(rd);
-        graph[i].emplace(make_pair(i + 1, random));             //edge for the next neighbor (from, to) 
+        graph[i].emplace(make_pair(i + 1, random));             //edge for the next neighbor (from, to)
         graph[i + 1].emplace(make_pair(i, random));             //                           (to, from)
         edgeCount[i] += 1;                                      //increment edge tracker
         edgeCount[i + 1] += 1;
@@ -92,25 +99,34 @@ int main()
 
     graph.erase(numberNode + 1);                                //delete the one excess ndoe from the graph
     graph[numberNode].erase(make_pair(numberNode + 1, random)); //delete the unreachable ndoe from the last address
- 
-    //cout << "map size: " << graph.size() << endl;
+
+
     //print the entire map
-    /*for (auto i = graph.begin(); i != graph.end(); i++)
+    int userInput = 2;
+
+    cout << "Do You want to print entire graph? " << endl;
+    cout << "1 = Yes " << endl;
+    cout << "2 = No " << endl;
+    cin >> userInput;
+
+    if (userInput == 1)
     {
-        cout << "index: " << i->first << endl;
-        cout << "edges: ";
-
-        for (auto j = i->second.begin(); j != i->second.end(); j++)
+        for (auto i = graph.begin(); i != graph.end(); i++)
         {
-            cout << "(" << j->first << ", " << j->second<< "); ";
+            cout << "vertice: " << i->first << endl;
+            cout << "Edges: ";
+
+            for (auto j = i->second.begin(); j != i->second.end(); j++)
+            {
+                cout << "(" << j->first << ", " << j->second << "); ";
+            }
+
+            cout << endl << endl;
         }
+    }
 
-        cout << endl << endl;
-    }*/
-
-    //generate random amount of delivery address
-    /*static uniform_int_distribution<int> deliveryRange(2, numberNode);     // random
-    int numDeliveryAddress = 2;
+    //generate a certain amount of random delivery address
+    static uniform_int_distribution<int> deliveryRange(2, numberNode);     // random
     set<int> deliveryList;
 
     while (deliveryList.size() != numDeliveryAddress)
@@ -118,23 +134,97 @@ int main()
         deliveryList.emplace(deliveryRange(rd));
     }
 
+    cout << "Delivery addresses list: ";
     for (auto i = deliveryList.begin(); i != deliveryList.end(); i++)
     {
         cout << *i << ", ";
     }
-    cout << endl;*/
+    cout << endl << endl;
 
-    Dijkstra(graph, numberNode, 1);
+    cout << "Enter the algorithm you would like to use" << endl;
+    cout << "1 = Dijkstra" << endl;
+    cout << "2 = Bellman-Ford" << endl;
+    cin >> userInput;
 
-    cout << "Dijkstra finished";
+    vector<int> path;                      //path taken tracker
+    if (userInput == 1)                    // Dijkstra
+    {
+        auto t1 = Clock::now();
+
+        int totalDistance = 0;             //keep track of total distance travelled
+        int sourceNode = 1;                //go to the next closest node
+        int preSourceNode = 1;
+
+        while (!deliveryList.empty())
+        {
+            int min = 300000000;            //closest node distance
+            stack<int> temp;
+            vector<int> prevNode(numberNode + 1, -2);
+            vector<int> closestDistance = Dijkstra(graph, numberNode, sourceNode, prevNode);
+
+            if (sourceNode != 1)
+            {
+                deliveryList.erase(sourceNode);     //deleted the node that just delivered to
+            }
+
+            for (auto i = deliveryList.begin(); i != deliveryList.end(); i++)
+            {
+                if (closestDistance[*i] < min)
+                {
+                    min = closestDistance[*i];      //find the closest node
+                    sourceNode = *i;
+                }
+            }
+
+            while (prevNode[preSourceNode] != -1)   //push everything on to stack so we can reverse the order
+            {
+                path.push_back(preSourceNode);
+                preSourceNode = prevNode[preSourceNode];
+            }
+
+            if (deliveryList.size() != 0)
+            {
+                totalDistance += min;
+            }
+            else                             //push the last desitaion node into path
+            {
+                path.push_back(sourceNode);
+            }
+        }
+
+        cout << "Total distance travelled: " << totalDistance << " meters." << endl;
+        auto t2 = Clock::now();
+        cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to use Dijkstra's algorithm" << endl;
+    }
+    else if (userInput == 2)            //Bellman-Ford
+    {
+        
+    }
+
+    //print the path
+    cout << "Do You want to print the path the driver took?" << endl;
+    cout << "1 = yes" << endl;
+    cout << "2 = no" << endl;
+    cin >> userInput;
+
+    if (userInput == 1)
+    {
+        for (int i = 0; i < path.size(); i++)
+        {
+            cout << path[i] << "->";
+        }
+    }
+
+    cout << "Finished" << endl;
     return 0;
 }
 
 //return the distance from source to each node
-vector<int> Dijkstra(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _source)
+vector<int> Dijkstra(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _source, vector<int>& _prevNode)
 {
-    vector<int> visited (_numNodes + 1, 0);                     // keep track which nodes is visited
-    vector<int> distance(_numNodes + 1, 300000000);              // track the distance from the source node 
+    vector<int> visited(_numNodes + 1, 0);                     // keep track which nodes is visited               // keep track of the previous node
+    vector<int> distance(_numNodes + 1, 300000000);            // track the distance from the source node
+    _prevNode[_source] = -1;
 
     int minIndex = _source;
     distance[_source] = 0;
@@ -160,11 +250,12 @@ vector<int> Dijkstra(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _
             if (distance[minIndex] + j->second < distance[j->first])
             {
                 distance[j->first] = distance[minIndex] + j->second;
+                _prevNode[j->first] = minIndex;
             }
         }
 
         //finished visiting this node
-        visited[minIndex] = 1; //set to true 
+        visited[minIndex] = 1;          //set to true
     }
 
     //test print
