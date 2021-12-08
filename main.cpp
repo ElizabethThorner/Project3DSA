@@ -81,19 +81,19 @@ int main()
 
     while (numberNode < 2)
     {
-        cout << "Enter the number of vertices (minimum of 2): ";
+        cout << "Enter the number of vertices (minimum of 2): " << endl;
         cin >> numberNode;
     }
 
     while (maxEdgePerNode < 2)
     {
-        cout << "Enter the max number of edges per node (minimum of 2): ";
+        cout << "Enter the max number of edges per node (minimum of 2): " << endl;
         cin >> maxEdgePerNode;
     }
 
     while (numDeliveryAddress < 1)
     {
-        cout << "Enter the number of delivery addresses you want in your list (cannot be greater than or equal to the number of vertices): ";
+        cout << "Enter the number of delivery addresses you want in your list (cannot be greater than or equal to the number of vertices): " << endl;
         cin >> numDeliveryAddress;
     }
     cout << endl;
