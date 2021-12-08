@@ -5,9 +5,9 @@
 * Date: 12/09/2021
 * Group member: Zhen Wu, Nandini Tripathi, and Elizabeth Thorner
 *
-* Delivery simulation using greedy approach by Dijkstra and Bellman-Ford algorithm.
-* The program calculates a local optimal paths the driver can take to finish his/her delivery trip.
-* Estimation of how many gallons of gas will be used, CO2 omission, and esimated time will be also calulated.
+* Delivery simulation using the greedy approach by Dijkstra and Bellman-Ford algorithm.
+* The program calculates a local optimal path the driver can take to finish his/her delivery trip.
+* Estimation of how many gallons of gas will be used, CO2 emission, and estimated time will be also calculated.
 */
 
 #include <iostream>
@@ -45,10 +45,10 @@ int main()
     int distanceApart = 1;
     int aveSpeed = 1;
 
-    cout << "This program will simulate paths that a delivery driver could take to delivery all his/her packages " << endl;
+    cout << "This program will simulate paths that a delivery driver could take to deliver all his/her packages " << endl;
     cout << "using the greedy approach. The user can choose between Dijkstra or Bellman-Ford algorithm or both. " << endl;
     cout << "The program will output the exact vertices the driver must follow to finish the trip. Estimation of how " << endl;
-    cout << "many gallons of gas will be used, CO2 omission, and esimated time and total cost will be also calulated." << endl << endl;
+    cout << "many gallons of gas will be used, CO2 emission, and estimated time, and the total cost will be also calculated." << endl << endl;
 
     cout << "Choose delivery location density:" << endl;
     cout << "1 = countryside (addresses are no more than 1100 meters apart)" << endl;
