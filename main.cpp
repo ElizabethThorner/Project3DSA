@@ -37,7 +37,7 @@ vector<int> BellmanFord(map<int, set<pair<int, int>>>& _graph, int _numNodes, in
 
 int main()
 {
-    //graph varibles
+    //graph variables
     int numberNode = -1;
     int maxEdgePerNode = -1;                                     //minimum of 2 edges (2 edges will just be a straight path)
     int numDeliveryAddress = -1;
@@ -45,15 +45,15 @@ int main()
     int distanceApart = 1;
     int aveSpeed = 1;
 
-    cout << "This program will simulate paths that a delivery driver could take to deliver all his/her packages " << endl;
-    cout << "using the greedy approach. The user can choose between Dijkstra or Bellman-Ford algorithm or both. " << endl;
-    cout << "The program will output the exact vertices the driver must follow to finish the trip. Estimation of how " << endl;
-    cout << "many gallons of gas will be used, CO2 emission, and estimated time, and the total cost will be also calculated." << endl << endl;
+    cout << "This program will simulate paths that a delivery driver could take to deliver all of his/her packages " << endl;
+    cout << "using the greedy approach. The user can choose between Dijkstra's algorithm or the Bellman-Ford algorithm or both. " << endl;
+    cout << "The program will output the exact path the driver must follow to finish the trip. Estimations of  " << endl;
+    cout << "gallons of gas used, CO2 emissions emitted, estimated time, and the total cost will be also calculated." << endl << endl;
 
     cout << "Choose delivery location density:" << endl;
-    cout << "1 = countryside (addresses are no more than 1100 meters apart)" << endl;
-    cout << "2 = town        (addresses are no more than 500 meters apart)" << endl;
-    cout << "3 = city        (addresses are no more than 100 meters apart)" << endl;
+    cout << "1 = Countryside (addresses are no more than 1100 meters apart)" << endl;
+    cout << "2 = Town        (addresses are no more than 500 meters apart)" << endl;
+    cout << "3 = City        (addresses are no more than 100 meters apart)" << endl;
     cout << "4 = Metropolis  (addresses are no more than 50 meters apart)" << endl;
     cin >> density;
     cout << endl;
@@ -93,7 +93,7 @@ int main()
 
     while (numDeliveryAddress < 1)
     {
-        cout << "Enter the number of delivery addresses you want in your list (cant be >= the number of vertices): ";
+        cout << "Enter the number of delivery addresses you want in your list (cannot be greater than or equal to the number of vertices): ";
         cin >> numDeliveryAddress;
     }
     cout << endl;
@@ -148,13 +148,13 @@ int main()
 
     }
 
-    graph.erase(numberNode + 1);                                //delete the one excess ndoe from the graph
-    graph[numberNode].erase(make_pair(numberNode + 1, random)); //delete the unreachable ndoe from the last address
+    graph.erase(numberNode + 1);                                //delete the one excess node from the graph
+    graph[numberNode].erase(make_pair(numberNode + 1, random)); //delete the unreachable node from the last address
 
     //print the entire map
     int userInput = 2;
 
-    cout << "Do You want to print entire graph? " << endl;
+    cout << "Do you want to print the entire graph? " << endl;
     cout << "1 = Yes " << endl;
     cout << "2 = No " << endl;
     cin >> userInput;
@@ -163,7 +163,7 @@ int main()
     {
         for (auto i = graph.begin(); i != graph.end(); i++)
         {
-            cout << "vertice: " << i->first << endl;
+            cout << "Vertex: " << i->first << endl;
             cout << "Edges: ";
 
             for (auto j = i->second.begin(); j != i->second.end(); j++)
@@ -193,7 +193,7 @@ int main()
     cout << endl << endl;
 
     cout << "Enter the algorithm you would like to use" << endl;
-    cout << "1 = Dijkstra" << endl;
+    cout << "1 = Dijkstra's" << endl;
     cout << "2 = Bellman-Ford" << endl;
     cout << "3 = Both" << endl;
     cin >> userInput;
@@ -248,8 +248,8 @@ int main()
         miles = (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100;
         auto t2 = Clock::now();
         cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to use Dijkstra's algorithm" << endl;
-        cout << "Total distance travelled: " << (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100 << " miles " << "(" << totalDistance << " meters)." << endl;
-        cout << "Esmated time to complete trip (with average speed of " << aveSpeed << " miles per hour): " << (double)((int)((miles / aveSpeed) * 100)) / 100 << " hours." << endl;
+        cout << "Total distance traveled: " << (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100 << " miles " << "(" << totalDistance << " meters)." << endl;
+        cout << "Estimated time to complete trip (with an average speed of " << aveSpeed << " miles per hour): " << (double)((int)((miles / aveSpeed) * 100)) / 100 << " hours." << endl;
         cout << endl;
     }
     else if (userInput == 2)            //Bellman-Ford
@@ -298,9 +298,9 @@ int main()
 
         miles = (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100;
         auto t2 = Clock::now();
-        cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to use Dijkstra's algorithm" << endl;
-        cout << "Total distance travelled: " << (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100 << " miles " << "(" << totalDistance << " meters)." << endl;
-        cout << "Esmated time to complete trip (with average speed of " << aveSpeed << " miles per hour): " << (double)((int)((miles / aveSpeed) * 100)) / 100 << " hours." << endl;
+        cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to use the Bellman-Ford algorithm" << endl;
+        cout << "Total distance traveled: " << (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100 << " miles " << "(" << totalDistance << " meters)." << endl;
+        cout << "Estimated time to complete trip (with an average speed of " << aveSpeed << " miles per hour): " << (double)((int)((miles / aveSpeed) * 100)) / 100 << " hours." << endl;
         cout << endl;
     }
     else if (userInput == 3)
@@ -352,8 +352,8 @@ int main()
         miles = (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100;
         auto t2 = Clock::now();
         cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to use Dijkstra's algorithm" << endl;
-        cout << "Total distance travelled: " << (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100 << " miles " << "(" << totalDistance << " meters)." << endl;
-        cout << "Esmated time to complete trip (with average speed of " << aveSpeed << " miles per hour): " << (double)((int)((miles / aveSpeed) * 100)) / 100 << " hours." << endl;
+        cout << "Total distance traveled: " << (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100 << " miles " << "(" << totalDistance << " meters)." << endl;
+        cout << "Estimated time to complete trip (with an average speed of " << aveSpeed << " miles per hour): " << (double)((int)((miles / aveSpeed) * 100)) / 100 << " hours." << endl;
 
         cout << endl;
 
@@ -402,14 +402,14 @@ int main()
 
         miles = (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100;
         t2 = Clock::now();
-        cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to use Bellman-Ford's algorithm" << endl;
-        cout << "Total distance travelled: " << (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100 << " miles " << "(" << totalDistance << " meters)." << endl;
-        cout << "Esmated time to complete trip (with average speed of " << aveSpeed << " miles per hour): " << (double)((int)((miles / aveSpeed) * 100)) / 100 << " hours." << endl;
+        cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to use the Bellman-Ford algorithm" << endl;
+        cout << "Total distance traveled: " << (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100 << " miles " << "(" << totalDistance << " meters)." << endl;
+        cout << "Estimated time to complete trip (with an average speed of " << aveSpeed << " miles per hour): " << (double)((int)((miles / aveSpeed) * 100)) / 100 << " hours." << endl;
         cout << endl;
     }
 
     //print the path
-    cout << "Do You want to print the path the driver took?" << endl;
+    cout << "Do you want to print the path the driver took?" << endl;
     cout << "1 = yes" << endl;
     cout << "2 = no" << endl;
     cin >> userInput;
@@ -432,7 +432,7 @@ int main()
 
     cout << "Trip cost calculation" << endl;
     cout << "---------------------" << endl;
-    cout << "Enter number of workers: ";
+    cout << "Enter the number of workers: ";
     cin >> numOfDrivers;
     cout << endl;
 
@@ -454,9 +454,8 @@ int main()
     cout << "Trip total cost: $" << (double)((int)(((miles/mpg)*costPerGallon)*100))/100 + (numOfDrivers*pay)*(double)((int)((miles/aveSpeed)*100))/100 << endl;
 
     //source: https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
-    cout << "CO2 emission for this trip is: " << 8.887*(miles/mpg) << " x10^-3 metric tons." << endl;
+    cout << "The CO2 emission for this trip is: " << 8.887*(miles/mpg) << " x10^-3 metric tons." << endl;
 
-    cout << "Program Finished" << endl;
     return 0;
 }
 
