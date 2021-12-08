@@ -62,7 +62,7 @@ int main()
 
     while (numDeliveryAddress < 1)
     {
-        cout << "Enter the number of delivery addresses you want in your list (cant be >= the number of vertices): ";
+        cout << "Enter the number of delivery addresses you want in your list (can't be >= the number of vertices): ";
         cin >> numDeliveryAddress;
     }
     cout << endl;
@@ -226,6 +226,7 @@ int main()
     {
         auto t1 = Clock::now();
         
+        const int infinity = 2147483647;
         set<int> addressesAdded;
         int totalDistance = 0;
         list<int> bellmanPath;
