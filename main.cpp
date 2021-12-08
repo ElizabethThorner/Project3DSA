@@ -351,7 +351,7 @@ int main()
 
         miles = (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100;
         auto t2 = Clock::now();
-        cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to use Bellman-Ford's algorithm" << endl;
+        cout << "It took " << duration_cast<seconds>(t2 - t1).count() << " seconds to use Dijkstra's algorithm" << endl;
         cout << "Total distance travelled: " << (double)((int)(((double)totalDistance / 1609.34) * 100)) / 100 << " miles " << "(" << totalDistance << " meters)." << endl;
         cout << "Esmated time to complete trip (with average speed of " << aveSpeed << " miles per hour): " << (double)((int)((miles / aveSpeed) * 100)) / 100 << " hours." << endl;
 
