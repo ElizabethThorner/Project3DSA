@@ -309,19 +309,19 @@ int main()
 
         auto t1 = Clock::now();
 
-        int totalDistance = 0;             //keep track of total distance travelled
-        int sourceNode = 1;                //go to the next closest node
+        int totalDistance = 0;                    //keep track of total distance travelled
+        int sourceNode = 1;                       //go to the next closest node
         int preSourceNode = 1;
 
         while (!tempList.empty())
         {
-            int min = 300000000;            //closest node distance
+            int min = 300000000;                   //closest node distance
             vector<int> prevNode(numberNode + 1, -2);
             vector<int> closestDistance = Dijkstra(graph, numberNode, sourceNode, prevNode);
 
             if (sourceNode != 1)
             {
-                tempList.erase(sourceNode);     //deleted the node that just delivered to
+                tempList.erase(sourceNode);         //deleted the node that just delivered to
             }
 
             for (auto i = tempList.begin(); i != tempList.end(); i++)
@@ -343,7 +343,7 @@ int main()
             {
                 totalDistance += min;
             }
-            else                             //push the last desitaion node into path
+            else                                    //push the last desitaion node into path
             {
                 path.push_back(sourceNode);
             }
@@ -463,7 +463,7 @@ int main()
 //return the distance from source to each node
 vector<int> Dijkstra(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _source, vector<int>& _prevNode)
 {
-    vector<int> visited(_numNodes + 1, 0);                     // keep track which nodes is visited               // keep track of the previous node
+    vector<int> visited(_numNodes + 1, 0);                     // keep track which nodes is visited
     vector<int> distance(_numNodes + 1, 300000000);            // track the distance from the source node
     _prevNode[_source] = -1;
 
@@ -521,8 +521,6 @@ vector<int> BellmanFord(map<int, set<pair<int, int>>>& _graph, int _numNodes, in
             {
                 for (auto k = j->second.begin(); k != j->second.end(); k++)
                 {
-                    //map<int, set<pair<int, int>>> graph;
-                    //map< j , k(pair())>
                     if (distance[j->first] + k->second < distance[k->first])   //if distance is less update
                     {
                         distance[k->first] = distance[j->first] + k->second;
