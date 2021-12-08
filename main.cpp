@@ -2,7 +2,7 @@
 * COP3530 Fall 2021
 * Project 3
 *
-* Date: 11/09/2021
+* Date: 12/09/2021
 * Group member: Zhen Wu, Nandini Tripathi, and Elizabeth Thorner
 *
 * Delivery simulation using greedy approach by Dijkstra and Bellman-Ford algorithm.
