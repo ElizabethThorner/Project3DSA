@@ -19,14 +19,9 @@
 #include <cstdlib>
 #include <random>
 #include <string>
-#include <queue>
 #include <vector>
 #include <set>
 #include <map>
-#include <unordered_set>
-#include <unordered_map>
-#include <list>
-#include <stack>
 
 using namespace std::chrono;
 using namespace std;
@@ -41,6 +36,7 @@ int main()
     int numberNode = -1;
     int maxEdgePerNode = -1;                                     //minimum of 2 edges (2 edges will just be a straight path)
     int numDeliveryAddress = -1;
+
     int density = 1;
     int distanceApart = 1;
     int aveSpeed = 1;
@@ -229,7 +225,7 @@ int main()
                 }
             }
 
-            while (prevNode[preSourceNode] != -1)   //push everything on to stack so we can reverse the order
+            while (prevNode[preSourceNode] != -1)  
             {
                 path.push_back(preSourceNode);
                 preSourceNode = prevNode[preSourceNode];
@@ -280,7 +276,7 @@ int main()
                 }
             }
 
-            while (prevNode[preSourceNode] != -1)   //push everything on to stack so we can reverse the order
+            while (prevNode[preSourceNode] != -1)  
             {
                 path.push_back(preSourceNode);
                 preSourceNode = prevNode[preSourceNode];
@@ -333,7 +329,7 @@ int main()
                 }
             }
 
-            while (prevNode[preSourceNode] != -1)   //push everything on to stack so we can reverse the order
+            while (prevNode[preSourceNode] != -1)   
             {
                 path.push_back(preSourceNode);
                 preSourceNode = prevNode[preSourceNode];
@@ -358,6 +354,7 @@ int main()
         cout << endl;
 
         t1 = Clock::now();            //Bellman-Ford
+        path.clear();                 //clear for Bellman-Ford to put the path
 
         totalDistance = 0;             //keep track of total distance travelled
         sourceNode = 1;                //go to the next closest node
@@ -366,7 +363,6 @@ int main()
         while (!deliveryList.empty())
         {
             int min = 300000000;            //closest node distance
-            stack<int> temp;
             vector<int> prevNode(numberNode + 1, -2);
             vector<int> closestDistance = BellmanFord(graph, numberNode, sourceNode, prevNode);
 
@@ -384,7 +380,7 @@ int main()
                 }
             }
 
-            while (prevNode[preSourceNode] != -1)   //push everything on to stack so we can reverse the order
+            while (prevNode[preSourceNode] != -1)   
             {
                 path.push_back(preSourceNode);
                 preSourceNode = prevNode[preSourceNode];
@@ -394,7 +390,7 @@ int main()
             {
                 totalDistance += min;
             }
-            else                             //push the last desitaion node into path
+            else                                    //push the last desitaion node into path
             {
                 path.push_back(sourceNode);
             }
@@ -449,12 +445,12 @@ int main()
     cout << endl;
 
     cout << "Result:" << endl;
-    cout << "Wage: $" << (numOfDrivers*pay)*(double)((int)((miles/aveSpeed)*100))/100 << endl;
-    cout << "Gas: $" << (double)((int)(((miles/mpg)*costPerGallon)*100))/100 << endl;
-    cout << "Trip total cost: $" << (double)((int)(((miles/mpg)*costPerGallon)*100))/100 + (numOfDrivers*pay)*(double)((int)((miles/aveSpeed)*100))/100 << endl;
+    cout << "Wage: $" << (numOfDrivers * pay) * (double)((int)((miles / aveSpeed) * 100)) / 100 << endl;
+    cout << "Gas: $" << (double)((int)(((miles / mpg) * costPerGallon) * 100)) / 100 << endl;
+    cout << "Trip total cost: $" << (double)((int)(((miles / mpg) * costPerGallon) * 100)) / 100 + (numOfDrivers * pay) * (double)((int)((miles / aveSpeed) * 100)) / 100 << endl;
 
     //source: https://www.epa.gov/energy/greenhouse-gases-equivalencies-calculator-calculations-and-references
-    cout << "The CO2 emission for this trip is: " << 8.887*(miles/mpg) << " x10^-3 metric tons." << endl;
+    cout << "The CO2 emission for this trip is: " << 8.887 * (miles / mpg) << " x10^-3 metric tons." << endl;
 
     return 0;
 }
