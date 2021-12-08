@@ -81,7 +81,7 @@ int main()
 
     while (numberNode < 2)
     {
-        cout << "Enter the number of vertices (minimum of 2): " << endl;
+        cout << "Enter the number of vertices (minimum of 2): ";
         cin >> numberNode;
     }
 
