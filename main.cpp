@@ -135,13 +135,11 @@ int main()
             }
         }
 
-
         random = distanceRange(rd);
         graph[i].emplace(make_pair(i + 1, random));             //edge for the next neighbor (from, to)
         graph[i + 1].emplace(make_pair(i, random));             //                           (to, from)
         edgeCount[i] += 1;                                      //increment edge tracker
         edgeCount[i + 1] += 1;
-
     }
 
     graph.erase(numberNode + 1);                                //delete the one excess node from the graph
@@ -353,16 +351,16 @@ int main()
 
         cout << endl;
 
-        t1 = Clock::now();            //Bellman-Ford
-        path.clear();                 //clear for Bellman-Ford to put the path
+        t1 = Clock::now();                           //Bellman-Ford
+        path.clear();                                //clear for Bellman-Ford to put the path
 
-        totalDistance = 0;             //keep track of total distance travelled
-        sourceNode = 1;                //go to the next closest node
+        totalDistance = 0;                           //keep track of total distance travelled
+        sourceNode = 1;                              //go to the next closest node
         preSourceNode = 1;
 
         while (!deliveryList.empty())
         {
-            int min = 300000000;            //closest node distance
+            int min = 300000000;                     //closest node distance
             vector<int> prevNode(numberNode + 1, -2);
             vector<int> closestDistance = BellmanFord(graph, numberNode, sourceNode, prevNode);
 
@@ -418,8 +416,9 @@ int main()
         {
             cout << path[i] << "->";
         }
+
+        cout << "end" << endl << endl;
     }
-    cout << "end" << endl << endl;;
 
     int numOfDrivers = 1;
     double pay = 0;
@@ -500,23 +499,23 @@ vector<int> Dijkstra(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _
 //return the distance from source to each node
 vector<int> BellmanFord(map<int, set<pair<int, int>>>& _graph, int _numNodes, int _source, vector<int>& _prevNode)
 {
-    vector<int> visited(_numNodes + 1, 0);                     // keep track which nodes is visited
-    vector<int> distance(_numNodes + 1, 300000000);            // track the distance from the source node
+    vector<int> visited(_numNodes + 1, 0);                                  // keep track which nodes is visited
+    vector<int> distance(_numNodes + 1, 300000000);                         // track the distance from the source node
     _prevNode[_source] = -1;
 
     distance[_source] = 0;
 
-    while (true)                                               //BellmanFord runs at most v-1 times or when after an iteration that cant improve distance (break)
+    while (true)                                                            //BellmanFord runs at most v-1 times or when after an iteration that cant improve distance (break)
     {
         bool hasChanged = false;
 
-        for (auto j = _graph.begin(); j != _graph.end(); j++)  //visit each node every iteration
+        for (auto j = _graph.begin(); j != _graph.end(); j++)                //visit each node every iteration
         {
-            if (distance[j->first] != 300000000)               //if the node havent been to then we skip
+            if (distance[j->first] != 300000000)                             //if the node havent been to then we skip
             {
                 for (auto k = j->second.begin(); k != j->second.end(); k++)
                 {
-                    if (distance[j->first] + k->second < distance[k->first])   //if distance is less update
+                    if (distance[j->first] + k->second < distance[k->first])  //if distance is less update
                     {
                         distance[k->first] = distance[j->first] + k->second;
                         _prevNode[k->first] = j->first;
