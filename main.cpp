@@ -110,7 +110,7 @@ int main()
     //add all the address and edges to the graph
     for (int i = 1; i <= numberNode; i++)
     {
-        //from itself to 2 other possble neighbor within (itself + 2) to (itself + 12) (ex: address 3 can have numEdgePerNode edges to address 5 - 15)
+        //from itself to no more than 10 other possble neighbor within (itself + 2) to (itself + 12) (ex: address 3 can have numEdgePerNode edges to address 5 - 15)
         set<int> nearbyNeighbor;
         while ((nearbyNeighbor.size() != maxEdgePerNode - 2) && nearbyNeighbor.size() != numberNode - i - 1 && i != numberNode) //2 edges is reserved for straight path
         {
