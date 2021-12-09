@@ -83,13 +83,13 @@ int main()
 
     while (maxEdgePerNode < 2)
     {
-        cout << "Enter the max number of edges per node (minimum of 2): " << endl;
+        cout << "Enter the max number of edges per node (minimum of 2, but no more than 11): " << endl;
         cin >> maxEdgePerNode;
     }
 
     while (numDeliveryAddress < 1)
     {
-        cout << "Enter the number of delivery addresses you want in your list (cannot be greater than or equal to the number of vertices): " << endl;
+        cout << "Enter the number of delivery addresses you want in your list (cant be >= the number of vertices): " << endl;
         cin >> numDeliveryAddress;
     }
     cout << endl;
@@ -98,7 +98,7 @@ int main()
     static random_device rd;
     static mt19937 rng(rd());
     static uniform_int_distribution<int> distanceRange(10, distanceApart);  //meter
-    static uniform_int_distribution<int> neighborRange(2, 12);     // 10 possible nearby neighbors
+    static uniform_int_distribution<int> neighborRange(2, 12);              // 10 possible nearby neighbors
 
     //adjacency list of the entire city's address and roads
     // <from, pair<to, weight>>
@@ -110,7 +110,7 @@ int main()
     //add all the address and edges to the graph
     for (int i = 1; i <= numberNode; i++)
     {
-        //from itself to no more than 10 other possble neighbor within (itself + 2) to (itself + 12) (ex: address 3 can have numEdgePerNode edges to address 5 - 15)
+        //from itself to 10 other possble neighbor within (itself + 2) to (itself + 12) (ex: address 3 can have numEdgePerNode edges to address 5 - 15)
         set<int> nearbyNeighbor;
         while ((nearbyNeighbor.size() != maxEdgePerNode - 2) && nearbyNeighbor.size() != numberNode - i - 1 && i != numberNode) //2 edges is reserved for straight path
         {
